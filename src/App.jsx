@@ -8,6 +8,7 @@ import Messages from "./pages/Messages";
 import Profile from "./pages/Profile";
 import PageNotFound from "./pages/PageNotFound";
 import LoginPage from "./Features/Authentication/LoginPage";
+import SignUp from "./Features/Authentication/SignUp";
 
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
           <Route path="profile" element={<Profile />} />
         </Route>
         <Route path="*" element={<PageNotFound />} />
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUp />} />
 
       </Routes>
     </BrowserRouter>
