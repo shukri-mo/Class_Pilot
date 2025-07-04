@@ -10,6 +10,7 @@ import PageNotFound from "./pages/PageNotFound";
 import LoginPage from "./Features/Authentication/LoginPage";
 import SignUp from "./Features/Authentication/SignUp";
 
+import AuthPage from "./pages/AuthPage";
 function App() {
   return (
     <BrowserRouter>
@@ -21,6 +22,8 @@ function App() {
           <Route path="classes" element={<Classes />} />
           <Route path="messages" element={<Messages />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="auth" element={<AuthPage/>}/>
+
         </Route>
         <Route path="*" element={<PageNotFound />} />
         <Route path="/login" element={<LoginPage />} />

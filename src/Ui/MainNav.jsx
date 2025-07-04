@@ -33,7 +33,7 @@ function MainNav() {
         <div className="pr-2">
           <hr className="border-t-[0.5px] w-50 border-[#716f92] [#716f92]" />
         </div>
-        <NavItem to="/messages" label="Profile" icon={<HiChatBubbleLeft size={20} />} />
+        {/* <NavItem to="/messages" label="Messsages" icon={<HiChatBubbleLeft size={20} />} /> */}
         <NavItem
           to="/profile"
           label="Profile"
