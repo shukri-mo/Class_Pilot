@@ -7,6 +7,9 @@ import Classes from "./pages/Classes";
 import Messages from "./pages/Messages";
 import Profile from "./pages/Profile";
 import PageNotFound from "./pages/PageNotFound";
+import LoginPage from "./Features/Authentication/LoginPage";
+import SignUp from "./Features/Authentication/SignUp";
+
 import AuthPage from "./pages/AuthPage";
 function App() {
   return (
@@ -23,6 +26,9 @@ function App() {
 
         </Route>
         <Route path="*" element={<PageNotFound />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUp />} />
+
       </Routes>
     </BrowserRouter>
   );
