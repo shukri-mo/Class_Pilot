@@ -3,11 +3,16 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Mail } from 'lucide-react';
 import { authShema } from "../../Schema/authschema.js";
-import { useNavigate } from "react-router-dom";
- 
-function LoginPage() {
+ import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "./AuthSlice";
+function LoginPage({setIsLogin}) {
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => state.auth);
+
+  const onSubmit = (data) => {
+    dispatch(loginUser(data));
+  }
   
-  const navigate = useNavigate();
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(authShema),
@@ -16,11 +21,11 @@ function LoginPage() {
 
   return (
     <div className='flex items-center justify-center h-screen bg-[#1B1B1F]'>
-      <form className='bg-white p-8 rounded shadow-md w-120' onSubmit={handleSubmit()}>
+      <form className='bg-white p-8 rounded shadow-md w-120' onSubmit={handleSubmit(onSubmit)}>
 
          <div className='flex space-x-6 '>
-          <button className='bg-[#eee] shadow-2xs px-10 py-2 rounded-md'>Log in</button>
-          <button className='bg-none shadow-md px-4' onClick={()=> navigate("/Signup")}>Don't have accont</button>
+          <button type="submit" className='bg-[#eee] shadow-2xs px-10 py-2 rounded-md'>Log in</button>
+          <button type="button"  className='bg-none shadow-md px-4' onClick={()=> setIsLogin(false)}>Don't have accont</button>
         </div>
 
         
@@ -64,32 +69,7 @@ function LoginPage() {
       </form>
     </div>
   )
-  return (
-    <>
-
-    {/*TODO
-     1. Create a login form UI with input fields:
-
--Email
--Password
-2. Validate form inputs:
-Required fields
-Email format
-
-3. Connect the form to Redux:
-
--Dispatch the loginUser async thunk with form data on submit.
-
--Show loading state while request is pending.
-
--Handle and display any errors from the API.
-
--On success, redirect or update UI accordingly (e.g., navigate to dashboard).*/}
-   <div>LoginPage</div>
-
  
-    </>
-  )
 }
 
 export default LoginPage;
