@@ -8,11 +8,16 @@ import Messages from "./pages/Messages";
 import Profile from "./pages/Profile";
 import PageNotFound from "./pages/PageNotFound";
 import AuthPage from "./pages/AuthPage";
+import ProtectedRoute from "./Ui/ProtectedRoute";
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<AppLayout />}>
+    <Route path="/auth" element={<AuthPage />} />
+        <Route path="/login" element={<Navigate to="/auth" replace />} />
+        <Route path="/signup" element={<Navigate to="/auth" replace />} />
+
+        <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
           <Route index element={<Navigate replace to="dashboard" />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="students" element={<Students />} />
@@ -20,9 +25,9 @@ function App() {
           <Route path="messages" element={<Messages />} />
           <Route path="profile" element={<Profile />} />
           <Route path="auth" element={<AuthPage/>}/>
-
         </Route>
         <Route path="*" element={<PageNotFound />} />
+        
       </Routes>
     </BrowserRouter>
   );

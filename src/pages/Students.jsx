@@ -7,15 +7,9 @@ import {
   HiOutlineTrash,
   HiOutlineUsers,
 } from "react-icons/hi";
-import AddClass from "../Features/Classess/AddClass";
 import { HiOutlineUser } from "react-icons/hi2";
-function Classes() {
-  // const classes = [
-  //   { id: 1, name: "3RD Grade Mathematics" },
-  //   { id: 2, name: "Science 201" },
-  //   { id: 3, name: "physics 201" },
-  //   { id: 4, name: "chemistry 201" },
-  // ];
+import AddStudent from "../Features/Students/AddStudent";
+function Students() {
 
   const students = [
     {
@@ -70,7 +64,7 @@ function Classes() {
 
   return (
     <>
-      <AddClass />
+      <AddStudent />
 
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 m-4">
         {students.map((st) => (
@@ -121,4 +115,4 @@ function Classes() {
   );
 }
 
-export default Classes;
+export default Students;
