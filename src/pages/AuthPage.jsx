@@ -1,15 +1,19 @@
-import LoginPage from "../Features/Authentication/LoginPage"
-import SignUp from "../Features/Authentication/SignUp"
+import { useState } from "react";
+import LoginPage from "../Features/Authentication/LoginPage";
+import SignUp from "../Features/Authentication/SignUp";
 
 function AuthPage() {
-    //here we will display both create and login form conditionally depending on the user whether its authenticated or not
+  const [isLogin, setIsLogin] = useState(true);
 
   return (
-    <div>
-      <LoginPage/>
-      <SignUp/>
+    <div className="flex items-center justify-center h-screen bg-[#1B1B1F]">
+      {isLogin ? (
+        <LoginPage setIsLogin={setIsLogin} />
+      ) : (
+        <SignUp setIsLogin={setIsLogin} />
+      )}
     </div>
-  )
+  );
 }
 
-export default AuthPage
+export default AuthPage;
