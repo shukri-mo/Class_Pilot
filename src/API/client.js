@@ -1,6 +1,8 @@
+
+
 // client.js
-const BASE_URL = import.meta.env.VITE_BASE_URL; // "/api"
-console.log(BASE_URL, "BASE_URL from env");
+
+
 export async function apiFetch(endpoint, options = {}) {
   const token = localStorage.getItem('token');
   const headers = {
@@ -9,8 +11,11 @@ export async function apiFetch(endpoint, options = {}) {
     ...options.headers,
   };
 
-  console.log("Calling API:", `${BASE_URL}${endpoint}`);
-  const res = await fetch(`${BASE_URL}${endpoint}`, { headers, ...options });
+  
+  const res = await fetch(endpoint, {
+    ...options,
+    headers,
+  });
   console.log(res, "res");
   if (!res.ok) {
     // Read the full text once
@@ -19,6 +24,7 @@ export async function apiFetch(endpoint, options = {}) {
 
     // Try to parse JSON, else leave as text
     let errBody;
+
     try {
       errBody = JSON.parse(text);
     } catch {
@@ -30,9 +36,11 @@ export async function apiFetch(endpoint, options = {}) {
   }
 
   // redirect to dashboard
-  if (res.status === 200) {
-    window.location.href = "/dashboard";
-  }
+  // if (res.status === 200) {
+  //   window.location.href = "/dashboard";
+  // }
+
+  
 
   return res.json();
 }

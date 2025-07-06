@@ -2,8 +2,12 @@ import React from "react";
 import MainNav from "./MainNav";
 import Logo from "./Logo";
 import {  HiOutlineUser } from "react-icons/hi2";
+import { useSelector  } from "react-redux";
 
 function Sidebar() {
+
+  // const { user } = useSelector((state) => state.auth)
+
   return (
     <div className="flex flex-col justify-between h-screen">
       <div className="flex flex-col gap-6 p-4">
