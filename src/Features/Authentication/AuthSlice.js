@@ -1,20 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { login, signup } from "../../API/AuthApi";
+import { login, signup, getCurrentUser } from "../../API/AuthApi";
+
+
 // Login function
 export const loginUser = createAsyncThunk(
-  "auth/login",
+  "auth/loginUser",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await login(email, password);
-      return response;
+      const data = await login(email, password);
+      return data;
     } catch (error) {
+      console.error("login Error");
       return rejectWithValue(error.message || "Login failed");
     }
   }
 );
 //Signup function
 export const signUpUser = createAsyncThunk(
-  "auth/signup",
+  "auth/signupUser",
   async ({ name, email, password }, { rejectWithValue }) => {
     try {
       const response = await signup(name, email, password);
@@ -25,13 +28,29 @@ export const signUpUser = createAsyncThunk(
   }
 );
 
+// Get current user
+
+export const currentUser = createAsyncThunk(
+  "auth/getCurrentUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await getCurrentUser();
+      return data;
+    } catch (error) {
+      console.log("user Error")
+      return rejectWithValue(error.message || "Signup failed");
+    }
+  }
+)
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: null,
-    token: localStorage.getItem("token") || null,
+    isAuthenticated: false,
     loading: false,
     error: null,
+    isUserCheked: false
   },
   reducers: {
     logout: (state) => {
@@ -49,7 +68,7 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
-        state.token = action.payload.token;
+        state.isAuthenticated = true;
         localStorage.setItem("token", action.payload.token);
       })
       .addCase(loginUser.rejected, (state, action) => {
@@ -63,11 +82,31 @@ const authSlice = createSlice({
       .addCase(signUpUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
+        state.isAuthenticated = true;
       })
       .addCase(signUpUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Signup failed";
-      });
+      })
+
+       .addCase(currentUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(currentUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.user;
+        state.isAuthenticated = true;
+        state.isUserCheked = true
+      })
+      .addCase(currentUser.rejected, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = false;
+        state.error = action.payload ;
+        state.isUserCheked = true;
+      })
+
+      
   },
 });
 

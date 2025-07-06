@@ -5,11 +5,14 @@ import { Mail } from "lucide-react";
 import { authShema } from "../../Schema/authschema.js";
 import { useDispatch, useSelector } from "react-redux";
 import { signUpUser } from "./AuthSlice.js";
-//import { toast } from "react-toasttify";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function SignUp({ setIsLogin }) {
    const dispatch = useDispatch();
   const { loading, error } = useSelector(state => state.auth);
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -20,6 +23,8 @@ function SignUp({ setIsLogin }) {
   });
   const onSubmit = (data) => {
     dispatch(signUpUser(data));
+    toast.success("Register successfully");
+    navigate("/login")
     console.log("User signed up:", data);
     reset();
   };

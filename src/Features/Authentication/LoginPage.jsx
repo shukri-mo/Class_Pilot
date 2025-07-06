@@ -2,26 +2,45 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Mail } from 'lucide-react';
-import { authShema } from "../../Schema/authschema.js";
+import { signInSchema } from "../../Schema/authschema.js";
  import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "./AuthSlice";
-function LoginPage({setIsLogin}) {
-  const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.auth);
+import { loginUser } from "./AuthSlice.js";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-  const onSubmit = (data) => {
-    dispatch(loginUser(data));
-  }
-  
+function LoginPage({setIsLogin}) {
+ 
+  const dispatch = useDispatch();
+  const { user, loading, error } = useSelector((state) => state.auth);
+
+  const navigate = useNavigate();
 
   const { register, handleSubmit, formState: { errors } } = useForm({
-    resolver: zodResolver(authShema),
-    
+    resolver: zodResolver(signInSchema),
   });
+
+
+  const handleLogin = async (data) => {
+    console.log("form data", data)
+    try{
+      const resposnse = await dispatch(loginUser(data));
+      console.log("login response");
+      if(resposnse.payload){
+        navigate("/dashboard");
+        toast.success("Login successfully");
+
+      }
+    }catch (error){
+      console.log("login failed", error);
+      toast.error("Login error")
+    }
+  }
+
+  
 
   return (
     <div className='flex items-center justify-center h-screen bg-[#1B1B1F]'>
-      <form className='bg-white p-8 rounded shadow-md w-120' onSubmit={handleSubmit(onSubmit)}>
+      <form className='bg-white p-8 rounded shadow-md w-120' onSubmit={handleSubmit(handleLogin)}>
 
          <div className='flex space-x-6 '>
           <button type="submit" className='bg-[#eee] shadow-2xs px-10 py-2 rounded-md'>Log in</button>
@@ -60,7 +79,7 @@ function LoginPage({setIsLogin}) {
           )}
         </div>
 
-        <button className='mt-6 w-full bg-[#1B1B1F] text-white px-4 py-2 rounded-md hover:bg-[#333] transition-colors'>
+        <button type="submit" className='mt-6 w-full bg-[#1B1B1F] text-white px-4 py-2 rounded-md hover:bg-[#333] transition-colors'>
           Log in
         </button>
 
