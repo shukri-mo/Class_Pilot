@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import DashboardCard from "../Features/Dashboard/DashboardCard";
 
 function Dashboard() {
@@ -44,12 +45,12 @@ function Dashboard() {
         <div className="xl:col-span-2 space-y-6">
           {/* Quick Actions */}
           <div className="flex gap-4">
-            <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            {/* <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
               + Add New Student
-            </button>
-            <button className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+            </button> */}
+            {/* <button className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
               + Create New Class
-            </button>
+            </button> */}
           </div>
 
           {/* Recent Activity */}
@@ -86,7 +87,7 @@ function Dashboard() {
           <div className="bg-white p-6 rounded-xl shadow-md">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold">Class Overview</h2>
-              <a href="#" className="text-sm text-blue-600 hover:underline">View All Classes</a>
+              <Link to='/classes' className="text-sm text-blue-600 hover:underline">View All Classes</Link>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="border p-4 rounded-lg">
@@ -123,17 +124,17 @@ function Dashboard() {
             <ul className="space-y-3 text-sm">
               <li>
                 <p className="font-medium"> Grade Math Tests</p>
-                <p className="text-gray-500 text-xs">Due: 3/14/2024</p>
+                <p className="text-gray-500 text-xs">Due: 7/14/2025</p>
                 <span className="text-xs text-red-600 font-semibold">High</span>
               </li>
               <li>
                 <p className="font-medium"> Parent-Teacher Conferences</p>
-                <p className="text-gray-500 text-xs">Due: 3/17/2024</p>
+                <p className="text-gray-500 text-xs">Due: 7/17/2025</p>
                 <span className="text-xs text-yellow-600 font-semibold">Medium</span>
               </li>
               <li>
                 <p className="font-medium"> Update Lesson Plans</p>
-                <p className="text-gray-500 text-xs">Due: 3/15/2024</p>
+                <p className="text-gray-500 text-xs">Due: 7/15/2025</p>
                 <span className="text-xs text-yellow-600 font-semibold">Medium</span>
               </li>
             </ul>

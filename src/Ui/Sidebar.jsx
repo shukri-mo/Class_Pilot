@@ -6,7 +6,7 @@ import { useSelector  } from "react-redux";
 
 function Sidebar() {
 
-  // const { user } = useSelector((state) => state.auth)
+   const { user } = useSelector((state) => state.auth)
 
   return (
     <div className="flex flex-col justify-between h-screen">
@@ -25,7 +25,7 @@ function Sidebar() {
         <div>
           <h1 className="text-white  font-bold">Welcome Back! </h1>
           <span>
-            <h3>Sarah Johnson</h3>
+            <h3>sarah</h3>
           </span>
         </div>
       </div>

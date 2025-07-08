@@ -21,7 +21,7 @@ function Classes() {
       description: "advanced mathematics for 3rd grade, student focusing on multiplication,..",
       subject: "Mathematics",
       gradeLevel: "5th Grade",
-      schedule: "1/9/24",
+      schedule: "1/9/25",
       capacity: 30,
     },
     {
@@ -29,7 +29,7 @@ function Classes() {
       description: "Introduction to Earth and Introduction to Earth",
       subject: "Science",
       gradeLevel: "6th Grade",
-      schedule: "1/9/24",
+      schedule: "1/9/25",
       capacity: 25,
     },
     {
@@ -37,7 +37,7 @@ function Classes() {
       description: "Develop storytelling and composition skills",
       subject: "English",
       gradeLevel: "7th Grade",
-      schedule: "1/9/24",
+      schedule: "1/9/25",
       capacity: 20,
     },
 

@@ -22,7 +22,8 @@ function App() {
         <Route path="/signup" element={<Navigate to="/auth" replace />} />
 
         
-        <Route element={<ProtectedRoute><AppLayout/></ProtectedRoute>}>
+        {/* <Route element={<ProtectedRoute><AppLayout/></ProtectedRoute>}> */}
+        <Route element={<AppLayout/>}>
           <Route index element={<Navigate replace to="dashboard" />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="students" element={<Students />} />
