@@ -11,6 +11,11 @@ A React + Redux Toolkit project powered by Supabase, designed to manage **studen
 - Protected routes (only authenticated users can access)  
 - User profile page with email & full name displayed  
 
+### 📊 Dashboard  
+- Centralized teacher dashboard to manage all data  
+- Quick overview of students and classes  
+- Easy navigation to CRUD operations
+
 ### 🎓 Class & Student Management  
 - **CRUD operations** for Students and Classes  
   - Create, Read, Update, Delete Students  
@@ -53,7 +58,7 @@ A React + Redux Toolkit project powered by Supabase, designed to manage **studen
 |---------------|-----------------------------------|
 | `loginUser`   | Authenticate user                 |
 | `logoutUser`  | End session                       |
-| `getProfile`  | Fetch logged-in user details      |
+
 
 ### **Student Slice**
 | Action          | Description                   |
@@ -86,7 +91,6 @@ A React + Redux Toolkit project powered by Supabase, designed to manage **studen
 ## 🌱 Future Enhancements  
 - ✏️ Edit user info (full name, email, password update)  
 - 🗑️ Delete user account  
-- 📊 Dashboard analytics (student count per class)  
 - 📅 Attendance & grading features  
 - 🔔 Notifications for class schedules  
 
