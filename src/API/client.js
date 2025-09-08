@@ -45,6 +45,22 @@ export async function apiFetch(endpoint, options = {}) {
   return res.json();
 }
 
+//Helper functions 
+// utils/dateFormatter.js
+export function formatDate(isoString) {
+  if (!isoString) return "";
+
+  const options = {
+    year: "numeric",
+    month: "short", // change to 'long' if you want full month names
+    day: "2-digit",
+    hour12: true,
+  };
+
+  return new Date(isoString).toLocaleString("en-US", options);
+}
+
+
 
 
 
