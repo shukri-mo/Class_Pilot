@@ -1,4 +1,10 @@
+import { useDispatch, useSelector } from "react-redux";
+import { currentUser } from "../Features/Authentication/AuthSlice";
+
 function Profile() {
+  const { user } = useSelector((state) => state.auth);
+  console.log("User ID:" ,user.name);  // ✅ Safe access
+  
   return (
     <div className="p-6 w-full space-y-6">
       <h1 className="text-2xl font-bold text-gray-800">Profile Settings</h1>
@@ -10,8 +16,8 @@ function Profile() {
           <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center text-white text-3xl font-bold">
             <span>👤</span>
           </div>
-          <h2 className="mt-4 text-xl font-semibold">Sarah Johnson</h2>
-          <p className="text-gray-500">sarah.johnson@email.com</p>
+          <h2 className="mt-4 text-xl font-semibold">{user.name}</h2>
+          <p className="text-gray-500">{user.email}</p>
           <button className="mt-3 px-4 py-2 text-sm text-white bg-gray-600 rounded hover:bg-gray-700">
             Change Photo
           </button>
@@ -29,7 +35,7 @@ function Profile() {
               <label className="block text-sm text-gray-500 mb-1">Full Name</label>
               <input
                 type="text"
-                value="Sarah Johnson"
+                value={user.name}
                 disabled
                 className="w-full border rounded px-3 py-2 bg-gray-100"
               />
@@ -38,7 +44,7 @@ function Profile() {
               <label className="block text-sm text-gray-500 mb-1">Email Address</label>
               <input
                 type="email"
-                value="sarah.johnson@email.com"
+                value={user.email}
                 disabled
                 className="w-full border rounded px-3 py-2 bg-gray-100"
               />
