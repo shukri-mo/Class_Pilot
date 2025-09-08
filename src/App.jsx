@@ -10,9 +10,12 @@ import PageNotFound from "./pages/PageNotFound";
 import AuthPage from "./pages/AuthPage";
 import ProtectedRoute from "./Ui/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
+import { useSelector } from "react-redux";
 
 
 function App() {
+  const { user } = useSelector((state) => state.auth);
+console.log("User Name:");  // ✅ Safe access
   return (
     <>
       <BrowserRouter>
@@ -22,8 +25,8 @@ function App() {
         <Route path="/signup" element={<Navigate to="/auth" replace />} />
 
         
-        {/* <Route element={<ProtectedRoute><AppLayout/></ProtectedRoute>}> */}
-        <Route element={<AppLayout/>}>
+        <Route element={<ProtectedRoute><AppLayout/></ProtectedRoute>}>
+        {/* <Route element={<AppLayout/>}> */}
           <Route index element={<Navigate replace to="dashboard" />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="students" element={<Students />} />
