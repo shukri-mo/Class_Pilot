@@ -1,13 +1,29 @@
 import React from "react";
 import MainNav from "./MainNav";
 import Logo from "./Logo";
-import {  HiOutlineUser } from "react-icons/hi2";
-import { useSelector  } from "react-redux";
+import {  HiArrowRightOnRectangle, HiOutlineUser } from "react-icons/hi2";
+import { useSelector,useDispatch  } from "react-redux";
+import { logoutUser } from "../API/AuthApi";
+import { logout } from "../Features/Authentication/AuthSlice";
+import { useNavigate } from "react-router-dom";
 
 function Sidebar() {
 
    const { user } = useSelector((state) => state.auth)
+const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const handleLogout = async () => {
+    try {
+      await logoutUser();  
+        localStorage.removeItem("user");    // logs out from Supabase
+        localStorage.removeItem("token");    // logs out from Supabase
+      dispatch(logout());          // clears Redux state
+      navigate("/login");          // redirect
+    } catch (err) {
+      console.error("Logout failed:", err.message);
+    }
+  };
   return (
     <div className="flex flex-col justify-between h-screen">
       <div className="flex flex-col gap-6 p-4">
@@ -25,8 +41,14 @@ function Sidebar() {
         <div>
           <h1 className="text-white  font-bold">Welcome Back! </h1>
           <span>
-            <h3>sarah</h3>
+            <h3>{user.name}</h3>
           </span>
+
+         <button onClick={handleLogout} style={{ display: "flex", alignItems: "center", gap: "6px", paddingTop:'8px', cursor: "pointer", color: "white", backgroundColor: "transparent", border: "none" }} >
+  <HiArrowRightOnRectangle size={18} />
+  <span>Signout</span>
+</button>
+
         </div>
       </div>
     </div>
