@@ -6,7 +6,7 @@ const {  isAuthenticated } = useSelector((state) => state.auth)
   // Check if the user is authenticated 
     if (!isAuthenticated) {
         // User is not authenticated, redirect to login page
-        return <Navigate to="/signup" replace />;
+        return <Navigate to="/auth" replace />;
   }
 
   return children
