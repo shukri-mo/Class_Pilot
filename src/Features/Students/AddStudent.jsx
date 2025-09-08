@@ -2,32 +2,74 @@ import Modal from "../../Ui/Modal";
 import { HiOutlinePlus, HiOutlineSearch } from "react-icons/hi";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { addStudent } from "./studentSlice";
-import { useState } from "react";
+import { addStudent, updateStudent } from "./studentSlice";
+import { useEffect, useState } from "react";
 
-function AddStudent() {
+function AddStudent({ open, edit, selectedStudent, setOpen,createStudent }) {
   const dispatch = useDispatch();
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({defaultValues:{
+        name: selectedStudent?.name || "",
+        email: selectedStudent?.email || "",
+        age: selectedStudent?.age || "",
+        grade: selectedStudent?.grade || "",
+        gender: selectedStudent?.gender || "",
+        notes: selectedStudent?.notes || "",
+        parentEmail: selectedStudent?.parentEmail || "",
+        parentPhone: selectedStudent?.parentPhone || "",
+      }
+    }
+  );
+  useEffect(() => {
+    if (edit && selectedStudent) {
+      reset(
+   selectedStudent
+      );
+    } else {
+      reset({
+        name: "",
+        age: "",
+        email: "",
+        grade: "",
+        gender: "",
+        notes: "",
+        parent_mail: "",
+        parent_Phone: "",
+        // other fields...
+      });
+    }
+  }, [edit, selectedStudent, reset]);
+
   function handleSubmitForm(data) {
     console.log("Form Data:", data);
-    // You can also dispatch an action to add the student to the store if using Redux
-    dispatch(addStudent(data))
-    .unwrap()
-    .then(() => {
-      reset(); // Clear form on success
-    })
-    .catch((err) => {
-      console.error("Failed to add student:", err);
-    });
-    setIsModalOpen(false); // Close the modal after submission
-
+    if (edit && selectedStudent?.id) {
+      // If in edit mode, dispatch update action
+      dispatch(updateStudent({ studentId: selectedStudent.id, formData: data }))
+        .unwrap()
+        .then(() => {
+          reset(); // Clear form on success
+        })
+        .catch((err) => {
+          console.error("Failed to update student:", err);
+        });
+      setOpen(false); // Close the modal after submission
+    } else {
+      dispatch(addStudent(data))
+        .unwrap()
+        .then(() => {
+          reset(); // Clear form on success
+        })
+        .catch((err) => {
+          console.error("Failed to add student:", err);
+        });
+      setOpen(false); // Close the modal after submission
+    }
   }
+  // You can also dispatch an action to add the student to the store if using Redux
 
   return (
     <>
@@ -40,7 +82,7 @@ function AddStudent() {
             </span>
           </div>
           <button
-            onClick={() => setIsModalOpen(true)}
+            onClick={createStudent}
             className="bg-indigo-600 text-white px-4 py-2 rounded flex items-center gap-2 cursor-pointer"
           >
             <HiOutlinePlus />
@@ -49,7 +91,7 @@ function AddStudent() {
         </div>
         <SearchInput />
 
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <Modal isOpen={open} onClose={() => setOpen(false)}>
           <h2 className="text-xl font-bold mb-4">Create Student</h2>
           <form onSubmit={handleSubmit(handleSubmitForm)}>
             <input

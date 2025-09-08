@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Mail } from 'lucide-react';
@@ -19,13 +19,18 @@ function LoginPage({setIsLogin}) {
     resolver: zodResolver(signInSchema),
   });
 
-
+// useEffect(() => {
+//   if (user) {
+//     navigate("/dashboard"); // User is already logged in
+//   }
+// }, [user, navigate]);
   const handleLogin = async (data) => {
     console.log("form data", data)
     try{
-      const resposnse = await dispatch(loginUser(data));
+      const response = await dispatch(loginUser(data));
       console.log("login response");
-      if(resposnse.payload){
+      if(response.payload){
+        localStorage.setItem("user", JSON.stringify(response.payload.user));
         navigate("/dashboard");
         toast.success("Login successfully");
 
