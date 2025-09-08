@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import DashboardCard from "../Features/Dashboard/DashboardCard";
+import { useSelector } from "react-redux";
 
 function Dashboard() {
+  const students=useSelector((state) => state.students.students);
   return (
     <div className="p-6 w-full">
       
@@ -10,7 +12,7 @@ function Dashboard() {
         <DashboardCard
           color="bg-blue-600"
           title="Total Students"
-          value="6"
+          value={students.length}
           note="Across all classes"
      
         />

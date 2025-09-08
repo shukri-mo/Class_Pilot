@@ -7,51 +7,59 @@ import {
   HiOutlineUsers,
 } from "react-icons/hi";
 import AddClass from "../Features/Classess/AddClass";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchClasses,
+  deleteClass,
+} from "../Features/Classess/classSlice";
+import { useEffect, useState } from "react";
 function Classes() {
-  // const classes = [
-  //   { id: 1, name: "3RD Grade Mathematics" },
-  //   { id: 2, name: "Science 201" },
-  //   { id: 3, name: "physics 201" },
-  //   { id: 4, name: "chemistry 201" },
-  // ];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [selectedClass, setSelectedClass] = useState(null);
 
-  const classes = [
-    {
-      name: "Mathematics",
-      description: "advanced mathematics for 3rd grade, student focusing on multiplication,..",
-      subject: "Mathematics",
-      gradeLevel: "5th Grade",
-      schedule: "1/9/25",
-      capacity: 30,
-    },
-    {
-      name: "Science",
-      description: "Introduction to Earth and Introduction to Earth",
-      subject: "Science",
-      gradeLevel: "6th Grade",
-      schedule: "1/9/25",
-      capacity: 25,
-    },
-    {
-      name: " Writing",
-      description: "Develop storytelling and composition skills",
-      subject: "English",
-      gradeLevel: "7th Grade",
-      schedule: "1/9/25",
-      capacity: 20,
-    },
-
-  ];
+  const dispatch = useDispatch();
+  const { classes, loading, error } = useSelector((state) => state.classes);
+  useEffect(() => {
+    dispatch(fetchClasses());
+  }, [dispatch]);
+  const handleDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete this class?")) {
+      dispatch(deleteClass(id));
+    }
+  };
+  const handleCreate = () => {
+    setIsEditMode(false);
+    setSelectedClass(null);
+    setIsModalOpen(true);
+  };
+  const handleEdit = (cls) => {
+    setIsEditMode(true);
+    setSelectedClass(cls);
+    setIsModalOpen(true);
+  };
 
   return (
     <>
-      <AddClass />
+      <AddClass
+        open={isModalOpen}
+        setOpen={setIsModalOpen}
+        edit={isEditMode}
+        selectedClass={selectedClass}
+        create={handleCreate}
+      />
+      {loading && <p className="text-center text-gray-500">Loading...</p>}
+      {error && <p className="text-center text-red-500">Error: {error}</p>}
 
-<ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 m-4">
+      {!loading && classes.length === 0 && (
+        <p className="text-center text-gray-400">No Classes found.</p>
+      )}
+
+      <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 m-4">
         {classes.map((cls) => (
           <li
             key={cls.id}
-className="bg-white rounded-2xl shadow-md p-4 flex flex-col gap-3"
+            className="bg-white rounded-2xl shadow-md p-4 flex flex-col gap-3"
           >
             {/* Top row: icon + title + edit/delete */}
             <div className="flex items-start justify-between">
@@ -62,12 +70,8 @@ className="bg-white rounded-2xl shadow-md p-4 flex flex-col gap-3"
                 </div>
 
                 <div className="space-y-1">
-                  <h1 className="text-lg font-semibold ">
-                    {cls.name}
-                  </h1>
-                  <h2 className="text-lg font-semibold">
-                     {cls.gradeLevel}
-                  </h2>
+                  <h1 className="text-lg font-semibold ">{cls.name}</h1>
+                  <h2 className="text-lg font-semibold">{cls.gradeLevel}</h2>
                   <div className="flex items-center gap-1 text-sm text-gray-600">
                     <HiOutlineUsers size={15} />
                     <span>{cls.capacity} students</span>
@@ -77,8 +81,16 @@ className="bg-white rounded-2xl shadow-md p-4 flex flex-col gap-3"
 
               {/* Right side: Edit/Delete */}
               <div className="flex gap-6 text-gray-600 hover:cursor-pointer">
-                <HiOutlinePencil className="hover:text-blue-600" size={20} />
-                <HiOutlineTrash className="text-red-600" size={20} />
+                <HiOutlinePencil
+                  className="hover:text-blue-600"
+                  size={20}
+                  onClick={() => handleEdit(cls)}
+                />
+                <HiOutlineTrash
+                  className="text-red-600 cursor-pointer"
+                  size={20}
+                  onClick={() => handleDelete(cls.id)}
+                />
               </div>
             </div>
 
@@ -86,16 +98,16 @@ className="bg-white rounded-2xl shadow-md p-4 flex flex-col gap-3"
             <div className=" text-gray-600 space-y-1 mt-2">
               <p>{cls.description}</p>
               <div className="flex justify-between mt-4">
-
-              <div className="flex items-center gap-1 text-sm text-gray-500">
-                <HiOutlineCalendar size={15} />
-                <span>{cls.schedule}</span>
-              </div>
+                <div className="flex items-center gap-1 text-sm text-gray-500">
+                  <HiOutlineCalendar size={15} />
+                  <span>{cls.schedule}</span>
+                </div>
                 <div className="flex flex-end">
-                  <button className="text-blue-500 font-medium hover:text-blue-700 cursor-pointer">view Details <span>&rarr;</span></button>
+                  <button className="text-blue-500 font-medium hover:text-blue-700 cursor-pointer">
+                    view Details <span>&rarr;</span>
+                  </button>
                 </div>
               </div>
-             
             </div>
           </li>
         ))}

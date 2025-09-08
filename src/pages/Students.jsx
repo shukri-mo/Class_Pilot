@@ -5,14 +5,17 @@ import {
 } from "react-icons/hi";
 import { HiOutlineUser } from "react-icons/hi2";
 import AddStudent from "../Features/Students/AddStudent";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchStudents,
-  deleteStudent,
+  fetchStudents,deleteStudent
 } from "../Features/Students/studentSlice";
+import { formatDate } from "../API/client";
 
 function Students() {
+   const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [selectedStudent, setSelectedStudent] = useState(null);
   const dispatch = useDispatch();
 
   // Get students, loading, and error from Redux state
@@ -28,10 +31,20 @@ function Students() {
       dispatch(deleteStudent(id));
     }
   };
+  const handleCreate = () => {
+    setIsEditMode(false);
+    setSelectedStudent(null);
+    setIsModalOpen(true);
+  };
+  const handleEdit = (st) => {
+    setIsEditMode(true);
+    setSelectedStudent(st);
+    setIsModalOpen(true);
+  };
 
   return (
     <>
-      <AddStudent />
+      <AddStudent open={isModalOpen} edit={isEditMode} selectedStudent={selectedStudent} setOpen={setIsModalOpen} createStudent={handleCreate} />
 
       {loading && <p className="text-center text-gray-500">Loading...</p>}
       {error && <p className="text-center text-red-500">Error: {error}</p>}
@@ -62,7 +75,7 @@ function Students() {
               </div>
 
               <div className="flex gap-4 text-gray-600 hover:cursor-pointer">
-                <HiOutlinePencil className="hover:text-blue-600" size={20} />
+                <HiOutlinePencil className="hover:text-blue-600" size={20} onClick={()=>handleEdit(st)} />
                 <HiOutlineTrash
                   className="text-red-600"
                   size={20}
@@ -77,9 +90,9 @@ function Students() {
                 <HiOutlineMail className="text-indigo-500" size={18} />
                 <span>{st.email}</span>
               </div>
-              <p>Class: {st.class}</p>
+            <p>Class: {st.classes?.name || "N/A"}</p>
               <p>Gender: {st.gender}</p>
-              <p>Joined: {st.joined}</p>
+              <p>Joined: {formatDate(st.created_at)}</p>
             </div>
           </li>
         ))}
